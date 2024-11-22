@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Click-to-Copy Example</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin: 50px;
+    }
+    .copy-container {
+      display: inline-block;
+      border: 1px solid #ccc;
+      padding: 10px;
+      border-radius: 5px;
+      box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+    }
+    .copy-input {
+      border: 1px solid #aaa;
+      border-radius: 5px;
+      padding: 8px;
+      width: 200px;
+      font-size: 16px;
+    }
+    .copy-button {
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      padding: 8px 15px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+    .copy-button:hover {
+      background-color: #0056b3;
+    }
+    .success-message {
+      color: green;
+      margin-top: 10px;
+      font-size: 14px;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <h1>Click-to-Copy Demo</h1>
+  <div class="copy-container">
+    <input type="text" id="copyText" class="copy-input" value="https://example.com" readonly>
+    <button id="copyButton" class="copy-button">Copiar</button>
+    <p id="successMessage" class="success-message">¡Texto copiado!</p>
+  </div>
+
+  <script>
+    // Seleccionar elementos
+    const copyButton = document.getElementById("copyButton");
+    const copyText = document.getElementById("copyText");
+    const successMessage = document.getElementById("successMessage");
+
+    // Agregar evento de clic al botón
+    copyButton.addEventListener("click", () => {
+      // Seleccionar el contenido del input
+      copyText.select();
+      copyText.setSelectionRange(0, 99999); // Para dispositivos móviles
+
+      // Intentar copiar el texto al portapapeles
+      try {
+        navigator.clipboard.writeText(copyText.value);
+        successMessage.style.display = "block"; // Mostrar mensaje de éxito
+        setTimeout(() => {
+          successMessage.style.display = "none"; // Ocultar mensaje después de 2 segundos
+        }, 2000);
+      } catch (err) {
+        console.error("Error al copiar:", err);
+      }
+    });
+  </script>
+</body>
+</html>
