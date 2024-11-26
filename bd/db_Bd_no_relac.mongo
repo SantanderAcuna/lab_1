@@ -1,0 +1,68 @@
+// Crear la base de datos (se crea automáticamente al usarla)
+use biblioteca;
+
+// Insertar documentos en la colección "libros".
+// Cada documento representa un libro, con información de su código, nombre, autor y editoriales.
+db.libros.insertMany([
+  {
+    "_id": "001", // Código único del libro (clave primaria)
+    "nombre": "Cien años de soledad", // Nombre del libro
+    "autor": "Gabriel García Márquez", // Autor del libro
+    "editoriales": ["Editorial Sudamericana", "Penguin Random House"] // Editoriales asociadas
+  },
+  {
+    "_id": "002", // Código único del libro
+    "nombre": "La casa de los espíritus",
+    "autor": "Isabel Allende",
+    "editoriales": ["Plaza & Janés", "Debolsillo"]
+  },
+  {
+    "_id": "003", // Código único del libro
+    "nombre": "La ciudad y los perros",
+    "autor": "Mario Vargas Llosa",
+    "editoriales": ["Editorial Seix Barral", "Editorial Alfaguara"]
+  }
+]);
+
+// Consultar todos los libros en la colección "libros"
+db.libros.find();
+
+// Consultar libros de un autor específico
+// Ejemplo: libros escritos por "Gabriel García Márquez"
+db.libros.find({ "autor": "Gabriel García Márquez" });
+
+// Buscar libros suministrados por una editorial específica
+// Ejemplo: libros de "Editorial Sudamericana"
+db.libros.find({ "editoriales": "Editorial Sudamericana" });
+
+// Actualizar el nombre de un libro
+// Ejemplo: Cambiar el nombre del libro con _id "001"
+db.libros.updateOne(
+  { "_id": "001" }, // Filtro para identificar el documento
+  { $set: { "nombre": "Cien años de soledad (Edición especial)" } } // Nuevo valor para el campo "nombre"
+);
+
+// Agregar una nueva editorial a un libro
+// Ejemplo: Agregar "Planeta" al libro con _id "003"
+db.libros.updateOne(
+  { "_id": "003" }, // Filtro para identificar el documento
+  { $addToSet: { "editoriales": "Planeta" } } // Agrega "Planeta" si no existe en el array
+);
+
+// Eliminar un libro por código (_id)
+// Ejemplo: Eliminar el libro con _id "002"
+db.libros.deleteOne({ "_id": "002" });
+
+// Eliminar todos los libros de una editorial específica
+// Ejemplo: Eliminar libros publicados por "Debolsillo"
+db.libros.deleteMany({ "editoriales": "Debolsillo" });
+
+// Consultar libros que tienen más de una editorial
+db.libros.find({ "editoriales.1": { $exists: true } });
+
+// Ordenar los libros por nombre alfabéticamente en orden ascendente
+db.libros.find().sort({ "nombre": 1 });
+
+// Exportar la colección "libros" a un archivo JSON
+// Este comando se ejecuta en la terminal, no en MongoDB Shell
+// mongoexport --db biblioteca --collection libros --out libros.json

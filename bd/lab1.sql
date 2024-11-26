@@ -1,3 +1,6 @@
+create database empl;
+use empl;
+
 -- Creación de la tabla "empleado"
 CREATE TABLE
     empleado (
