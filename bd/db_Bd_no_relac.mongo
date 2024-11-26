@@ -26,6 +26,7 @@ db.libros.insertMany([
 
 // Consultar todos los libros en la colección "libros"
 db.libros.find();
+db.libros.find().pretty();
 
 // Consultar libros de un autor específico
 // Ejemplo: libros escritos por "Gabriel García Márquez"
